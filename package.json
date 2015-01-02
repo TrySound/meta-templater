@@ -1,6 +1,6 @@
 {
-  "name": "meta",
-  "version": "0.0.0",
+  "name": "meta-templater",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -14,5 +14,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
