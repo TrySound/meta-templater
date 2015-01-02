@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>Project Title</title>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!-- <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"> -->
+</head>
+<body>
+
+
+@@include('partials/footer.html')
+
+
+@@include('partials/header.html', {
+	title: 'Page Header'
+})
+
+@@include('partials/footer.html', {
+	nav: true
+})
+
+
+</body>
+</html>
