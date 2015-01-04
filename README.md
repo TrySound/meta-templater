@@ -1,40 +1,40 @@
 #meta-templater
 
-##Install
+##Usage
+
+###Install
 
 ```
 $ npm i meta-templater
 ```
 
 
-##API
+###API
 
-###new Templater(options);
+####new Templater(options);
 
-####options.parseVars
+#####options.parseVars
 
 Type: `Boolean` Default: `true`
 
-####options.prefix
+#####options.prefix
 
 Type: `String` Default: `@@`
 
-####options.suffix
+#####options.suffix
 
 Type: `String` Default: ``
 
-####options.blockOpen
+#####options.blockOpen
 
 Type: `String` Default: `{`
 
-####options.blockClose
+#####options.blockClose
 
 Type: `String` Default: `}`
 
 
-###Methods
-
-###addHandler(name, handler);
+####addHandler(name, handler);
 
 ```js
 function handler(args, body, data) {
@@ -42,6 +42,6 @@ function handler(args, body, data) {
 }
 ```
 
-###removeHandler(name);
+####removeHandler(name);
 
-###parse(src, data);
+####parse(src, data);
