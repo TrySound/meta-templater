@@ -53,4 +53,4 @@ If `handler` will return `false` then construction will not be replaced
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Bogdan Chadkin
+Copyright &copy; 2015 Bogdan Chadkin
