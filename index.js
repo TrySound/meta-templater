@@ -1,11 +1,11 @@
 var ee = require('events').EventEmitter,
-	extend = require('node.extend');
+	extend = require('node.extend'),
+	escape = require('escape-regexp');
 
 
 var trace = require('./lib/trace'),
 	setvars = require('./lib/setvars'),
 	parsefn = require('./lib/parsefn');
-
 
 
 module.exports = API;
@@ -22,7 +22,7 @@ function API(opts) {
 	extend(true, this, new ee);
 	this.on('error', function () {});
 	this.opts = opts;
-	this.fnRegExp = new RegExp(opts.prefix + '([$_a-zA-Z][$_0-9a-zA-Z]*)\\(');
+	this.fnRegExp = new RegExp(escape(opts.prefix) + '([$_a-zA-Z][$_0-9a-zA-Z]*)\\(');
 	this.handlers = {};
 }
 
