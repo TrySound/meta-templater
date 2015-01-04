@@ -42,6 +42,8 @@ function handler(args, body, data) {
 }
 ```
 
+If `handler` will return `false` then construction will not be replaced
+
 ####removeHandler(name);
 
 ####parse(src, data);
