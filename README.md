@@ -8,6 +8,24 @@
 $ npm i meta-templater
 ```
 
+###Example
+
+```js
+var MT = require('meta-templater');
+
+var templater = new MT;
+
+
+temlater.addHandler('if', function (args, body, data) {
+	if(args[0]) {
+		return temlater.parse(body, data);
+	}
+});
+
+
+var result = templater.parse(html);
+```
+
 
 ###API
 
