@@ -51,6 +51,6 @@ If `handler` will return `false` then construction will not be replaced
 
 ##License
 
-The MIT License (MIT)
+[The MIT License (MIT)](LICENSE)
 
 Copyright &copy; 2015 Bogdan Chadkin
