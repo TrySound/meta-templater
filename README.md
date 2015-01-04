@@ -17,7 +17,7 @@ $ npm i meta-templater
 ```
 
 ```js
-var MT = require('meta-templater')б
+var MT = require('meta-templater'),
     html = require('fs').readFileSync('index.html', 'utf-8');
 
 var templater = new MT;
