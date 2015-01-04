@@ -18,7 +18,7 @@ var templater = new MT;
 
 temlater.addHandler('if', function (args, body, data) {
 	if(args[0]) {
-		return temlater.parse(body, data);
+		return templater.parse(body, data);
 	}
 });
 
