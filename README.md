@@ -10,8 +10,15 @@ $ npm i meta-templater
 
 ###Example
 
+```html
+@@if(voice) {
+	<div>Hello, @@name</div>
+}
+```
+
 ```js
-var MT = require('meta-templater');
+var MT = require('meta-templater')б
+    html = require('fs').readFileSync('index.html', 'utf-8');
 
 var templater = new MT;
 
@@ -23,7 +30,10 @@ temlater.addHandler('if', function (args, body, data) {
 });
 
 
-var result = templater.parse(html);
+var result = templater.parse(html, {
+	voice: true,
+	name: 'John'
+});
 ```
 
 
