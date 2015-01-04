@@ -1,10 +1,11 @@
 {
   "name": "meta-templater",
   "version": "0.0.1",
-  "description": "",
+  "description": "node meta templater",
   "main": "index.js",
   "dependencies": {
     "balanced-match": "^0.2.0",
+    "escape-regexp": "0.0.1",
     "flatnest": "^0.2.2",
     "node.extend": "^1.1.3",
     "php-extract": "^0.1.0"
@@ -13,6 +14,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT"
+  "author": "Bogdan Chadkin <trysound@yandex.ru>",
+  "license": "MIT",
+  "directories": {
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://trysound@github.com/TrySound/meta-templater.git"
+  },
+  "keywords": [
+    "parser",
+    "meta",
+    "templater",
+    "node"
+  ],
+  "bugs": {
+    "url": "https://github.com/TrySound/meta-templater/issues"
+  },
+  "homepage": "https://github.com/TrySound/meta-templater"
 }
