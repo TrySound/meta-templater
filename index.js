@@ -1,10 +1,9 @@
 var ee = require('events').EventEmitter,
-	extend = require('node.extend'),
-	escape = require('escape-regexp');
+	extend = require('node.extend');
 
 
 var trace = require('./lib/trace'),
-	setvars = require('./lib/setvars'),
+	setVars = require('./lib/setvars'),
 	parsefn = require('./lib/parsefn');
 
 
@@ -22,7 +21,6 @@ function API(opts) {
 	extend(true, this, new ee);
 	this.on('error', function () {});
 	this.opts = opts;
-	this.fnRegExp = new RegExp(escape(opts.prefix) + '([$_a-zA-Z][$_0-9a-zA-Z]*)\\(');
 	this.handlers = {};
 }
 
@@ -35,42 +33,27 @@ API.prototype.removeHandler = function (name) {
 };
 
 API.prototype.parse = function (src, data) {
-	var match,
-		parse,
-		tracer,
-		index = 0,
-		pre = '',
-		post = src;
+	var pre = '',
+		post = src,
+		fn,
+		result;
 
+	data = typeof data === 'object' && data !== null ? data : {};
 
-	while(typeof post === 'string' && post) {
-		match = post.match(this.fnRegExp);
-		if(match) {
-			index += match.index;
-			if(this.opts.parseVars) {
-				pre += setvars.call(this, post.substring(0, match.index), data);
-			} else {
-				pre += post.substring(0, match.index);
-			}
+	while(post) {
+		fn = parsefn(post, this.opts, data);
 
-			if(Object.keys(this.handlers).indexOf(match[1]) !== -1) {
-				result = parsefn.call(this, post.substring(match.index), this.handlers[match[1]], data, trace(src, index));
-				pre += (result.content !== false ? result.content : result.pre);
-			} else {
-				result = parsefn.call(this, post.substring(match.index));
-				pre += result.pre;
-			}
-			index += result.pre.length;
-			post = result.post;
+		pre += setVars(fn.pre, this.opts, data);
+
+		if(typeof this.handlers[fn.name] === 'function') {
+			result = this.handlers[fn.name](fn.args, fn.body);
+			pre += result === false ? fn.src : typeof result === 'string' ? result : '';
 		} else {
-			index += post.length;
-			if(this.opts.parseVars) {
-				pre += setvars.call(this, post, data);
-			} else {
-				pre += post;
-			}
-			post = false;
+			pre += fn.src;
 		}
+		
+		result = null;
+		post = fn.post;
 	}
 
 	return pre;

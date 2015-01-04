@@ -12,16 +12,21 @@ var include = new API;
 include.addHandler('include', function (args) {
 	var html;
 
-	if (filename.toLowerCase() === args[0].toLowerCase()) {
-		throw new Error('recursion detected in file: ' + filename);
+	if(typeof args[0] === 'string') {
+		if (filename.toLowerCase() === args[0].toLowerCase()) {
+			throw new Error('recursion detected in file: ' + filename);
+		}
+
+		html = fs.readFileSync('./' + args[0], 'utf-8');
+		
+		return include.parse(html, args[1]);
 	}
 
-	html = fs.readFileSync('./' + args[0], 'utf-8');
-	return include.parse(html, args[1]);
+	return false;
 });
 
 include.addHandler('if', function (args, body, data) {
-	if(args && args[0]) {
+	if(args[0]) {
 		return include.parse(body, data);
 	}
 });

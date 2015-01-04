@@ -14,8 +14,15 @@
 <body>
 
 
+
+@@if('hello' !== 'hello',) {
+	<div>Hello</div>
+}
+
 @@include('partials/footer.html')
 
+
+@@include('partials/header.html')
 
 @@include('partials/header.html', {
 	title: 'Page Header'
