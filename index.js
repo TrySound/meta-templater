@@ -1,8 +1,5 @@
-var ee = require('events').EventEmitter,
-	extend = require('node.extend');
-
-
-var trace = require('./lib/trace'),
+// var ee = require('events').EventEmitter;
+var extend = require('node.extend'),
 	setVars = require('./lib/setvars'),
 	parsefn = require('./lib/parsefn');
 
@@ -18,8 +15,8 @@ function API(opts) {
 		blockClose: '}'
 	}, opts);
 
-	extend(true, this, new ee);
-	this.on('error', function () {});
+	// extend(true, this, new ee);
+	// this.on('error', function () {});
 	this.opts = opts;
 	this.handlers = {};
 }
