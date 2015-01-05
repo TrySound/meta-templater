@@ -6,7 +6,10 @@ var fs = require('fs'),
 var filename = 'index.html',
 	html = fs.readFileSync(filename, 'utf-8');
 
-var include = new API;
+var include = new API({
+	prefix: '<!-- @@',
+	suffix: ' -->'
+});
 
 
 include.addHandler('include', function (args) {
