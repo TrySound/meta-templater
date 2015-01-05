@@ -1,12 +1,12 @@
 #meta-templater
 
-##Usage
-
-###Installation
+##Installation
 
 ```
 $ npm i meta-templater
 ```
+
+##Usage
 
 ###Example
 
