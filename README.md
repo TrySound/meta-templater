@@ -2,7 +2,7 @@
 
 ##Usage
 
-###Install
+###Installation
 
 ```
 $ npm i meta-templater
