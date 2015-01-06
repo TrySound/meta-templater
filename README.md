@@ -89,6 +89,11 @@ If `handler` will return `false` then construction will not be replaced
 
 Remove analyzer
 
+
+####use(name, args, body);
+
+Calls analyzer
+
 ####parse(src, data);
 
 Parses `src` string passing `data`
