@@ -22,7 +22,7 @@ include.addHandler('include', function (args) {
 
 		html = fs.readFileSync('./' + args[0], 'utf-8');
 		
-		return include.parse(html, args[1]);
+		return this.parse(html, args[1]);
 	}
 
 	return false;
@@ -30,7 +30,7 @@ include.addHandler('include', function (args) {
 
 include.addHandler('if', function (args, body, data) {
 	if(args[0]) {
-		return include.parse(body, data);
+		return this.parse(body, data);
 	}
 });
 
