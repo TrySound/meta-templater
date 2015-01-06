@@ -21,6 +21,27 @@ function API(opts) {
 	this.handlers = {};
 }
 
+API.prototype.use = function (name, args, body) {
+	var result;
+
+	if(typeof args === 'undefined') {
+		args = [];
+	} else if(args && typeof args !== 'string' && typeof args.length !== 'undefined') {
+		args = Array.prototype.slice.call(args, 0);
+	} else {
+		args = [args];
+	}
+
+	if(typeof this.handlers[name] === 'function') {
+		result = this.handlers[name].call(this, args, body);
+		result = (result === false || typeof result === 'string') ? result : '';
+	} else {
+		result = false;
+	}
+
+	return result;
+};
+
 API.prototype.addHandler = function (name, handler) {
 	this.handlers[name] = handler;
 };
@@ -42,12 +63,8 @@ API.prototype.parse = function (src, data) {
 
 		pre += setVars(fn.pre, this.opts, data);
 
-		if(typeof this.handlers[fn.name] === 'function') {
-			result = this.handlers[fn.name](fn.args, fn.body);
-			pre += result === false ? fn.src : typeof result === 'string' ? result : '';
-		} else {
-			pre += fn.src;
-		}
+		result = this.use(fn.name, fn.args, fn.body);
+		pre += result === false ? fn.src : result;
 		
 		result = null;
 		post = fn.post;
