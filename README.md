@@ -79,7 +79,7 @@ Add analyzer for function construction
 
 ```js
 function handler(args, body, data) {
-  return 'string';
+  return this.use('include', args[0]) + '\nBEGIN\n' + this.parse(body, data) + '\nEND';
 }
 ```
 
