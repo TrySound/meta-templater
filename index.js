@@ -17,8 +17,8 @@ function API(opts) {
 
 	// extend(true, this, new ee);
 	// this.on('error', function () {});
-	this.opts = opts;
-	this.handlers = {};
+	this._opts = opts;
+	this._handlers = {};
 }
 
 API.prototype.use = function (name, args, body) {
@@ -32,8 +32,8 @@ API.prototype.use = function (name, args, body) {
 		args = [args];
 	}
 
-	if(typeof this.handlers[name] === 'function') {
-		result = this.handlers[name].call(this, args, body);
+	if(typeof this._handlers[name] === 'function') {
+		result = this._handlers[name].call(this, args, body);
 		result = (result === false || typeof result === 'string') ? result : '';
 	} else {
 		result = false;
@@ -43,11 +43,11 @@ API.prototype.use = function (name, args, body) {
 };
 
 API.prototype.addHandler = function (name, handler) {
-	this.handlers[name] = handler;
+	this._handlers[name] = handler;
 };
 
 API.prototype.removeHandler = function (name) {
-	this.handlers[name] = null;
+	this._handlers[name] = null;
 };
 
 API.prototype.parse = function (src, data) {
@@ -59,9 +59,9 @@ API.prototype.parse = function (src, data) {
 	data = typeof data === 'object' && data !== null ? data : {};
 
 	while(post) {
-		fn = parsefn(post, this.opts, data);
+		fn = parsefn(post, this._opts, data);
 
-		pre += setVars(fn.pre, this.opts, data);
+		pre += setVars(fn.pre, this._opts, data);
 
 		result = this.use(fn.name, fn.args, fn.body);
 		pre += result === false ? fn.src : result;
