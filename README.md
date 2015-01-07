@@ -24,11 +24,11 @@ For example:
 
 Has an optional suffix and body
 
-*Prefix*Name*Suffix*
+*Prefix*Name()*Suffix*
 
 or
 
-*Prefix*Name *openBody*
+*Prefix*Name() *openBody*
 *closeBodySuffix*
 
 Example with {prefix: `'<!-- @@'`, suffix: `' -->'`}:
