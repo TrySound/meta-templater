@@ -28,8 +28,7 @@ Has an optional suffix and body
 
 or
 
-*Prefix*Name() *openBody*
-*closeBodySuffix*
+*Prefix*Name() *bodyOpen* *bodyCloseSuffix*
 
 Example with {prefix: `'<!-- @@'`, suffix: `' -->'`}:
 
@@ -138,29 +137,29 @@ Type: `Boolean` Default: `true`
 
 Type: `String` Default: `@@`
 
-Prefix at the start of function construction or variable
+Prefix at the start of function or variable
 
 #####options.suffix
 
 Type: `String` Default: ``
 
-Suffix after close of function construction or after variable
+Suffix after close of function or after variable
 
-#####options.blockOpen
+#####options.bodyOpen
 
 Type: `String` Default: `{`
 
-Open function construction body
+Open function body
 
-#####options.blockClose
+#####options.bodyClose
 
 Type: `String` Default: `}`
 
-Close function construction body
+Close function body
 
 ####addHandler(name, handler);
 
-Add analyzer for function construction
+Add analyzer for function
 
 ```js
 function handler(args, body, data) {
@@ -168,7 +167,7 @@ function handler(args, body, data) {
 }
 ```
 
-If `handler` will return `false` then construction will not be replaced
+If `handler` will return `false` then function will not be replaced
 
 ####removeHandler(name);
 

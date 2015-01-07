@@ -11,8 +11,8 @@ function API(opts) {
 		parseVars: true,
 		prefix: '@@',
 		suffix: '',
-		blockOpen: '{',
-		blockClose: '}'
+		bodyOpen: '{',
+		bodyClose: '}'
 	}, opts);
 
 	// extend(true, this, new ee);
