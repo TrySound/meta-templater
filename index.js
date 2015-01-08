@@ -46,10 +46,14 @@ API.prototype.use = function (name, args, body) {
 
 API.prototype.addHandler = function (name, handler) {
 	this._handlers[name] = handler;
+
+	return this;
 };
 
 API.prototype.removeHandler = function (name) {
 	this._handlers[name] = null;
+
+	return this;
 };
 
 API.prototype.parse = function (src, data) {
