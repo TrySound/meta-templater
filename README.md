@@ -1,3 +1,7 @@
+[![NPM version][npm-url]
+[![License][license-url]
+
+
 #meta-templater
 
 Flexible templates parser inspired by [gulp-file-include](https://github.com/coderhaoxin/gulp-file-include).
@@ -190,3 +194,6 @@ Parses `src` string passing `data`
 [The MIT License (MIT)](LICENSE)
 
 Copyright &copy; 2015 Bogdan Chadkin
+
+[npm-url]: https://www.npmjs.com/package/meta-templater
+[license-url]: https://github.com/TrySound/meta-templater/blob/master/LICENSE
