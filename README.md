@@ -1,5 +1,7 @@
 #meta-templater
 
+Flexible templates parser inspired by [gulp-file-include](https://github.com/coderhaoxin/gulp-file-include).
+
 ##Installation
 
 ```
