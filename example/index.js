@@ -2,7 +2,6 @@ var fs = require('fs'),
 	API = require('../index');
 
 
-
 var filename = 'index.html',
 	html = fs.readFileSync(filename, 'utf-8');
 
@@ -21,7 +20,7 @@ include.addHandler('include', function (args) {
 		}
 
 		html = fs.readFileSync('./' + args[0], 'utf-8');
-		
+
 		return this.parse(html, args[1]);
 	}
 

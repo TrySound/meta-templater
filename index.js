@@ -1,10 +1,9 @@
-// var ee = require('events').EventEmitter;
 var extend = require('node.extend'),
 	setVars = require('./lib/setvars'),
 	parsefn = require('./lib/parsefn');
 
-
 module.exports = API;
+
 function API(opts) {
 	opts = opts || {};
 	opts = extend({
@@ -17,8 +16,6 @@ function API(opts) {
 		bodyClose: '}'
 	}, opts);
 
-	// extend(true, this, new ee);
-	// this.on('error', function () {});
 	this._opts = opts;
 	this._handlers = {};
 }
@@ -71,7 +68,7 @@ API.prototype.parse = function (src, data) {
 
 		result = this.use(fn.name, fn.args, fn.body);
 		pre += result === false ? fn.src : result;
-		
+
 		result = null;
 		post = fn.post;
 	}
