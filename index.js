@@ -1,7 +1,8 @@
 var extend = require('node.extend'),
 	Parser = require('./lib/parser'),
 	tree = require('./lib/tree'),
-	Handler = require('./lib/handler');
+	Handler = require('./lib/handler'),
+	jsobj = require('./lib/jsobj');
 
 module.exports = MT;
 
@@ -10,7 +11,8 @@ function MT(opts) {
 		prefix: '//=',
 		suffix: '',
 		open: '(',
-		close: ')'
+		close: ')',
+		arg: jsobj // (argText, data)
 	}, opts);
 
 	this.fn = {};
@@ -18,6 +20,7 @@ function MT(opts) {
 	this.handler = new Handler({
 		_fn: this.fn,
 		_op: this.op,
+		arg: opts.arg,
 		parser: tree(new Parser(opts))
 	});
 
@@ -47,3 +50,4 @@ MT.prototype = {
 		return this.handler.build(input, data);
 	}
 };
+
