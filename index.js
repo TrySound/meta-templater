@@ -1,4 +1,4 @@
-var extend = require('node.extend'),
+var extend = require('extend'),
 	Parser = require('./lib/parser'),
 	tree = require('./lib/tree'),
 	Handler = require('./lib/handler'),
@@ -27,6 +27,7 @@ function MT(opts) {
 	this.addFn('include', require('./handlers/include'));
 	this.addOp('if', require('./handlers/if'));
 	this.addOp('each', require('./handlers/each'));
+	this.addOp('print', require('./handlers/print'));
 }
 
 MT.prototype = {

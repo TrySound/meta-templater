@@ -15,7 +15,44 @@ test('Parser', function (t) {
 			close: 'end'
 		});
 
-	t.plan(2);
+	t.plan(11);
+
+	t.deepEqual(p1.process(' content 1 {{ }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ /va }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va/[] }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va{} / () }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va/() }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va{} () / }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va () / }} content2'), []);
+
+	t.deepEqual(p1.process(' content 1 {{ va () }} content2'), [
+		{
+			type: 'op',
+			name: 'va',
+			body: '',
+			bodyIndex: 18,
+			start: 11,
+			end: 22
+		}
+	]);
+
+	t.deepEqual(p1.process(' content 1 {{ va{} () }} content2'), [
+		{
+			type: 'op',
+			name: 'va',
+			arg: '{}',
+			body: '',
+			bodyIndex: 20,
+			start: 11,
+			end: 24
+		}
+	]);
 
 	t.deepEqual(p1.process([
 		' content1 {{ var_1 }} content2',

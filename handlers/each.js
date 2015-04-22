@@ -1,4 +1,4 @@
-var extend = require('node.extend');
+var extend = require('extend');
 
 module.exports = function (arg, body, data) {
 	if(Array.isArray(arg)) {

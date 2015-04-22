@@ -1,8 +1,8 @@
-#meta-templater
+# meta-templater
 
 Flexible templates parser inspired by [gulp-file-include](https://github.com/coderhaoxin/gulp-file-include).
 
-##Installation
+## Installation
 
 ```
 $ npm i meta-templater
@@ -10,94 +10,66 @@ $ npm i meta-templater
 
 ## Theory
 
-Template has two types of constructions:
+Template has three types of constructions:
 
-###Variable
+### var
 
-*Prefix*Name*Suffix*
+`//= var_name`
 
-Where `Suffix` is optional
+Where `//=` is prefix and suffix is empty
 
-For example:
-- {prefix: `'@@'`, suffix: `'@'`}: `@@name` or `@@name@`
-- {prefix: `'<!-- @@'`, suffix: `' -->'`}: `<!-- @@name -->` or `<!-- @@name`
+### fn
 
-###Function
+`//= include[]`
 
-Has an optional suffix and body
+Where `include` is `fn` name and `[]` is argument js object (array)
 
-*Prefix*Name()*Suffix*
+### op
 
-or
+`//= print ( content )`
 
-*Prefix*Name() *bodyOpen* *bodyCloseSuffix*
+`//= each[] ()`
 
-Example with {prefix: `'<!-- @@'`, suffix: `' -->'`}:
-
-```
-<!-- @@name(arguments)
-<!-- @@name(arguments) -->
-<!-- @@name(arguments) { }
-<!-- @@name(arguments) { } -->
-```
-
-`arguments` parses like js function arguments. When it errors, empty array will be passed to handler.
-
-If `body` doesn't exists, undefined will be passed to handler.
+Where arguments is optinal and `()` is body of `op`
 
 
-##Usage
-
-###Initialize
+## Initialize
 
 compile.js
 ```js
 var MT = require('meta-templater'),
-    fs = require('fs');
+	fs = require('fs');
 
-var templater = new MT;
-
-// Handlers Declaration
-
-var result = templater.parse(fs.readFileSync('src/index.html', 'utf-8'), {
-	voice: true,
-	name: 'John'
+var result = new MT().build(fs.readFileSync('src/index.html', 'utf-8'), {
+	param1: true,
+	param2: 'John'
 });
 
 fs.writeFileSync('dist/index.html', result, 'utf-8');
 ```
 
-###Examples
+## Examples
 
-####Condition Handler
+### Condition Handler
 
 index.html
 ```html
-@@if(voice) {
-	<div>Hello, @@name</div>
-}
+//= if[data.voice] (
+	<div>Hello, //= name</div>
+)
 ```
 
-index.js Handler
-```js
-temlater.addHandler('if', function (args, body, data) {
-	if(args[0]) {
-		return templater.parse(body, data);
-	}
-});
-```
-
-####Include Handler
+### Include Handler
 
 index.html
 ```html
 <html>
-	@@include('head.html', {title: 'Page Title'})
+	//= include['head.html', {title: 'Page Title'}]
 	
 	<body>
-		@@include('header.html')
-		@@include('content-main.html')
-		@@include('footer.html')
+		//= include['header.html']
+		//= include['content-main.html']
+		//= include['footer.html']
 	</body>
 </html>
 ```
@@ -107,82 +79,45 @@ head.html
 <!-- Empty string for indent correction -->
 	<head>
 		<meta charset="utf-8">
-		<title>@@title</title>
+		<title>//= title</title>
 	</head>
 
 ```
 
-index.js Handler
-```js
-temlater.addHandler('include', function (args, body, data) {
-	if(typeof args[0] === 'string') {
-		// 0: filename, 1: include data
-		return templater.parse(fs.readFileSync(args[0], 'utf-8'), args[1]);
-	}
-});
-```
 
+## API
 
-###API
-
-####new Templater(options);
+### new MT(options);
 
 Initialize templater
 
-#####options.parseVars
+#### options.prefix
 
-Type: `Boolean` Default: `true`
+Type: `String` Default: `//=`
 
-`false` will prevent replacing variables
-
-#####options.prefix
-
-Type: `String` Default: `@@`
-
-Prefix at the start of function or variable
-
-#####options.suffix
+#### options.suffix
 
 Type: `String` Default: ``
 
-Suffix after close of function or after variable
+#### options.open
 
-#####options.bodyOpen
+Type: `String` Default: `(`
 
-Type: `String` Default: `{`
+#### options.close
 
-Open function body
+Type: `String` Default: `)`
 
-#####options.bodyClose
+### Methods
 
-Type: `String` Default: `}`
+#### addFn(name, handler);
 
-Close function body
+#### addOp(name, handler);
 
-####addHandler(name, handler);
+### Handler `this` methods
 
-Add analyzer for function
+#### build(input || body, data)
 
-```js
-function handler(args, body, data) {
-  return this.use('include', args[0]) + '\nBEGIN\n' + this.parse(body, data) + '\nEND';
-}
-```
-
-If `handler` will return `false` then function will not be replaced
-
-####removeHandler(name);
-
-Remove analyzer
-
-
-####use(name, args, body);
-
-Calls analyzer
-
-####parse(src, data);
-
-Parses `src` string passing `data`
+#### flatten(input || body)
 
 
 ##License
