@@ -1,82 +1,49 @@
-// var ee = require('events').EventEmitter;
 var extend = require('node.extend'),
-	setVars = require('./lib/setvars'),
-	parsefn = require('./lib/parsefn');
+	Parser = require('./lib/parser'),
+	tree = require('./lib/tree'),
+	Handler = require('./lib/handler');
 
+module.exports = MT;
 
-module.exports = API;
-function API(opts) {
-	opts = opts || {};
-	opts = extend({
-		parseVars: true,
-		prefix: '@@',
+function MT(opts) {
+	opts = extend({}, {
+		prefix: '//=',
 		suffix: '',
-		argsOpen: '(',
-		argsClose: ')',
-		bodyOpen: '{',
-		bodyClose: '}'
+		open: '(',
+		close: ')'
 	}, opts);
 
-	// extend(true, this, new ee);
-	// this.on('error', function () {});
-	this._opts = opts;
-	this._handlers = {};
+	this.fn = {};
+	this.op = {};
+	this.handler = new Handler({
+		_fn: this.fn,
+		_op: this.op,
+		parser: tree(new Parser(opts))
+	});
+
+	this.addFn('include', require('./handlers/include'));
+	this.addOp('if', require('./handlers/if'));
+	this.addOp('each', require('./handlers/each'));
 }
 
-API.prototype.use = function (name, args, body) {
-	var result;
+MT.prototype = {
+	addFn: function (name, fn) {
+		if(typeof name === 'string' && name.length && typeof fn === 'function') {
+			this.fn[name] = fn.bind(this.handler);
+		}
 
-	if(typeof args === 'undefined') {
-		args = [];
-	} else if(args && typeof args !== 'string' && typeof args.length !== 'undefined') {
-		args = Array.prototype.slice.call(args, 0);
-	} else {
-		args = [args];
+		return this;
+	},
+
+	addOp: function (name, fn) {
+		if(typeof name === 'string' && name.length && typeof fn === 'function') {
+			this.op[name] = fn.bind(this.handler);
+		}
+
+		return this;
+	},
+
+	build: function (input, data) {
+		return this.handler.build(input, data);
 	}
-
-	if(typeof this._handlers[name] === 'function') {
-		result = this._handlers[name].call(this, args, body);
-		result = (result === false || typeof result === 'string') ? result : '';
-	} else {
-		result = false;
-	}
-
-	return result;
 };
-
-API.prototype.addHandler = function (name, handler) {
-	this._handlers[name] = handler;
-
-	return this;
-};
-
-API.prototype.removeHandler = function (name) {
-	this._handlers[name] = null;
-
-	return this;
-};
-
-API.prototype.parse = function (src, data) {
-	var pre = '',
-		post = src,
-		fn,
-		result;
-
-	data = typeof data === 'object' && data !== null ? data : {};
-
-	while(post) {
-		fn = parsefn(post, this._opts, data);
-
-		pre += setVars(fn.pre, this._opts, data);
-
-		result = this.use(fn.name, fn.args, fn.body);
-		pre += result === false ? fn.src : result;
-		
-		result = null;
-		post = fn.post;
-	}
-
-	return pre;
-};
-
-
