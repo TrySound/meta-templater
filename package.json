@@ -1,6 +1,6 @@
 {
   "name": "meta-templater",
-  "version": "0.1.2",
+  "version": "1.0.1",
   "description": "node.js custom template parser",
   "main": "index.js",
   "dependencies": {
