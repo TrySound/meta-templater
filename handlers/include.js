@@ -7,6 +7,6 @@ module.exports = function (arg, data) {
 	data = extend({}, data, arg[1]);
 
 	if(typeof filepath === 'string') {
-		return this.build(fs.readFileSync(path.resolve(filepath), 'utf-8'), data);
+		return this.build(this.parse(fs.readFileSync(path.resolve(filepath), 'utf-8')), data);
 	}
 };

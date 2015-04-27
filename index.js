@@ -15,13 +15,11 @@ function MT(opts) {
 		arg: jsobj // (argText, data)
 	}, opts);
 
-	this.fn = {};
-	this.op = {};
 	this.handler = new Handler({
-		_fn: this.fn,
-		_op: this.op,
+		fn: {},
+		op: {},
 		arg: opts.arg,
-		parser: tree(new Parser(opts))
+		parse: tree(new Parser(opts))
 	});
 
 	this.addFn('include', require('./handlers/include'));
@@ -31,24 +29,26 @@ function MT(opts) {
 }
 
 MT.prototype = {
-	addFn: function (name, fn) {
-		if(typeof name === 'string' && name.length && typeof fn === 'function') {
-			this.fn[name] = fn.bind(this.handler);
+	addFn: function (name, cb) {
+		if(typeof name === 'string' && name.length && typeof cb === 'function') {
+			this.handler.fn[name] = cb.bind(this.handler);
 		}
 
 		return this;
 	},
 
-	addOp: function (name, fn) {
-		if(typeof name === 'string' && name.length && typeof fn === 'function') {
-			this.op[name] = fn.bind(this.handler);
+	addOp: function (name, cb) {
+		if(typeof name === 'string' && name.length && typeof cb === 'function') {
+			this.handler.op[name] = cb.bind(this.handler);
 		}
 
 		return this;
 	},
 
 	build: function (input, data) {
-		return this.handler.build(input, data);
+		if(typeof input === 'string') {
+			return this.handler.build(this.handler.parse(input), data);
+		}
 	}
 };
 

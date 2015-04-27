@@ -16,8 +16,6 @@ test('Tree', function (t) {
 			close: '}'
 		});
 
-	t.plan(3);
-
 	t.deepEqual(tree(p1)(' content1 content2 content3 '), [
 		{
 			type: 'text',
@@ -27,11 +25,7 @@ test('Tree', function (t) {
 		}
 	]);
 
-	var input1 = [
-		' content1 {{ var_1 }} content2',
-		' {{ fn_2{arg1, arg2} }} content3',
-		' {{ op_3[arg1, arg2,arg3]  ( body1 ) }} content4 '
-	].join('');
+	var input1 = ' content1 {{ var_1 }} content2 {{ fn_2{arg1, arg2} }} content3 {{ op_3[arg1, arg2,arg3]  ( body1 ) }} content4 ';
 
 	t.deepEqual(tree(p1)(input1), [
 		{
@@ -74,11 +68,9 @@ test('Tree', function (t) {
 			name: 'op_3',
 			arg: '[arg1, arg2,arg3]',
 			body: ' body1 ',
-			bodyIndex: 90,
 			children: [
 				{
 					type: 'text',
-					parentIndex: 90,
 					start: 0,
 					end: 7,
 					input: ' body1 '
@@ -94,11 +86,7 @@ test('Tree', function (t) {
 		}
 	]);
 
-	var input2 = [
-		'@@var_1  content2',
-		' @@fn_2{arg1, arg2}  content3',
-		' @@op_3[arg1, arg2,arg3]  { @@body1 }'
-	].join('');
+	var input2 = '@@var_1  content2 @@fn_2{arg1, arg2}  content3 @@op_3[arg1, arg2,arg3]  { @@body1 }';
 
 	t.deepEqual(tree(p2)(input2), [
 		{
@@ -135,18 +123,15 @@ test('Tree', function (t) {
 			name: 'op_3',
 			arg: '[arg1, arg2,arg3]',
 			body: ' @@body1 ',
-			bodyIndex: 73,
 			children: [
 				{
 					type: 'text',
-					parentIndex: 73,
 					start: 0,
 					end: 1,
 					input: ' '
 				},
 				{
 					type: 'var',
-					parentIndex: 73,
 					start: 1,
 					end: 8,
 					name: 'body1',
@@ -154,7 +139,6 @@ test('Tree', function (t) {
 				},
 				{
 					type: 'text',
-					parentIndex: 73,
 					start: 8,
 					end: 9,
 					input: ' '
@@ -163,4 +147,6 @@ test('Tree', function (t) {
 			input: '@@op_3[arg1, arg2,arg3]  { @@body1 }'
 		}
 	]);
+
+	t.end();
 });

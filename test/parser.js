@@ -15,8 +15,6 @@ test('Parser', function (t) {
 			close: 'end'
 		});
 
-	t.plan(11);
-
 	t.deepEqual(p1.process(' content 1 {{ }} content2'), []);
 
 	t.deepEqual(p1.process(' content 1 {{ /va }} content2'), []);
@@ -36,7 +34,6 @@ test('Parser', function (t) {
 			type: 'op',
 			name: 'va',
 			body: '',
-			bodyIndex: 18,
 			start: 11,
 			end: 22
 		}
@@ -48,7 +45,6 @@ test('Parser', function (t) {
 			name: 'va',
 			arg: '{}',
 			body: '',
-			bodyIndex: 20,
 			start: 11,
 			end: 24
 		}
@@ -78,8 +74,7 @@ test('Parser', function (t) {
 			end: 101,
 			name: 'op_3',
 			arg: '[arg1, arg2,arg3]',
-			body: ' body1 ',
-			bodyIndex: 90
+			body: ' body1 '
 		}
 	]);
 
@@ -103,8 +98,9 @@ test('Parser', function (t) {
 			end: 97,
 			name: 'op_3',
 			arg: '[arg1, arg2,arg3]',
-			body: ' body1 ',
-			bodyIndex: 87
+			body: ' body1 '
 		}
 	]);
+
+	t.end();
 });
