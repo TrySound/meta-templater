@@ -21,9 +21,10 @@ test('Parsing with data', function (t) {
 		' content  <h1>Header 1</h1>  content'
 	);
 
-	t.throws(function () {
-		p.build(' content  //= include["examples/hdr.html", {hdr: header}]  content');
-	});
+	t.equal(
+		p.build(' content  //= include["examples/hdr.html", {hdr: header}]  content'),
+		' content  //= include["examples/hdr.html", {hdr: header}]  content'
+	);
 
 	t.equal(
 		p.build(' content  //= include["examples/hdr.html"]  content', {
