@@ -83,11 +83,7 @@ test('Parser', function (t) {
 		}
 	]);
 
-	t.deepEqual(p2.process([
-		' content1 @@var_1  content2',
-		' @@fn_2{arg1, arg2}  content3',
-		' @@op_3[arg1, arg2,arg3]  begin body1 end  content4'
-	].join('')), [
+	t.deepEqual(p2.process(' content1 @@var_1  content2 @@fn_2{arg1, arg2}  content3 @@op_3[arg1, arg2,arg3]  begin body1 end  content4'), [
 		{
 			type: 'var',
 			start: 10,
