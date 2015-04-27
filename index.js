@@ -7,18 +7,19 @@ var extend = require('extend'),
 module.exports = MT;
 
 function MT(opts) {
-	opts = extend({}, {
+	opts = extend(true, {}, {
 		prefix: '//=',
 		suffix: '',
 		open: '(',
 		close: ')',
-		arg: jsobj // (argText, data)
+		arg: 'json', // json || round
+		argExec: jsobj // (argText, data)
 	}, opts);
 
 	this.handler = new Handler({
 		fn: {},
 		op: {},
-		arg: opts.arg,
+		arg: opts.argExec,
 		parse: tree(new Parser(opts))
 	});
 

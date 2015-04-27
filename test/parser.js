@@ -6,13 +6,15 @@ test('Parser', function (t) {
 			prefix: '{{',
 			suffix: '}}',
 			open: '(',
-			close: ')'
+			close: ')',
+			arg: 'json'
 		}),
 		p2 = new Parser({
 			prefix: '@@',
 			suffix: '',
 			open: 'begin',
-			close: 'end'
+			close: 'end',
+			arg: 'round'
 		});
 
 	t.deepEqual(p1.process(' content 1 {{ }} content2'), []);
@@ -78,7 +80,7 @@ test('Parser', function (t) {
 		}
 	]);
 
-	t.deepEqual(p2.process(' content1 @@var_1  content2 @@fn_2{arg1, arg2}  content3 @@op_3[arg1, arg2,arg3]  begin body1 end  content4'), [
+	t.deepEqual(p2.process(' content1 @@var_1  content2 @@fn_2(arg1, arg2)  content3 @@op_3(arg1, arg2,arg3)  begin body1 end  content4 @@op_4 begin body2 end  content5'), [
 		{
 			type: 'var',
 			start: 10,
@@ -90,15 +92,22 @@ test('Parser', function (t) {
 			start: 28,
 			end: 46,
 			name: 'fn_2',
-			arg: '{arg1, arg2}'
+			arg: '(arg1, arg2)'
 		},
 		{
 			type: 'op',
 			start: 57,
 			end: 97,
 			name: 'op_3',
-			arg: '[arg1, arg2,arg3]',
+			arg: '(arg1, arg2,arg3)',
 			body: ' body1 '
+		},
+		{
+			type: 'op',
+			start: 108,
+			end: 130,
+			name: 'op_4',
+			body: ' body2 '
 		}
 	]);
 

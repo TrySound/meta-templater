@@ -7,13 +7,15 @@ test('Tree', function (t) {
 			prefix: '{{',
 			suffix: '}}',
 			open: '(',
-			close: ')'
+			close: ')',
+			arg: 'json'
 		}),
 		p2 = new Parser({
 			prefix: '@@',
 			suffix: '',
 			open: '{',
-			close: '}'
+			close: '}',
+			arg: 'json'
 		});
 
 	t.deepEqual(tree(p1)(' content1 content2 content3 '), [
